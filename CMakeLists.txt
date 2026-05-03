@@ -23,11 +23,17 @@ target_include_directories(libimgui
     PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/backends"
 )
 
-if(WIN32)
-    set(IMGUI_EXPORT_DEF "IMGUI_API=__declspec(dllexport)")
-    set(IMGUI_IMPORT_DEF "IMGUI_API=__declspec(dllimport)")
+if(BUILD_SHARED_LIBS)
+    if(WIN32)
+        set(IMGUI_EXPORT_DEF "IMGUI_API=__declspec(dllexport)")
+        set(IMGUI_IMPORT_DEF "IMGUI_API=__declspec(dllimport)")
+    else()
+        set(IMGUI_EXPORT_DEF "IMGUI_API=__attribute__((visibility(\"default\")))")
+        set(IMGUI_IMPORT_DEF "IMGUI_API=")
+    endif()
 else()
-    set(IMGUI_EXPORT_DEF "IMGUI_API=__attribute__((visibility(\"default\")))")
+    # If building statically, the API macro should just be empty
+    set(IMGUI_EXPORT_DEF "IMGUI_API=")
     set(IMGUI_IMPORT_DEF "IMGUI_API=")
 endif()
 
