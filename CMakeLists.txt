@@ -3,6 +3,13 @@ project(ImGUI)
 
 add_library(libimgui
     "imgui_knobs.cpp"
+    "implot_demo.cpp"
+    "implot_items.cpp"
+    "implot.cpp"
+    "implot3d_demo.cpp"
+    "implot3d_items.cpp"
+    "implot3d_meshes.cpp"
+    "implot3d.cpp"
     "misc/cpp/imgui_stdlib.cpp"
     "imgui.cpp"
     "imgui_draw.cpp"
@@ -24,8 +31,8 @@ else()
     set(IMGUI_IMPORT_DEF "IMGUI_API=")
 endif()
 
-target_compile_definitions(libimgui PRIVATE ${IMGUI_EXPORT_DEF})
+target_compile_definitions(libimgui PRIVATE "${IMGUI_EXPORT_DEF}" "IMPLOT_API=IMGUI_API" "IMPLOT3D_API=IMGUI_API")
 
 add_library(imgui INTERFACE)
-target_compile_definitions(imgui INTERFACE ${IMGUI_IMPORT_DEF})
+target_compile_definitions(imgui INTERFACE "${IMGUI_IMPORT_DEF}" "IMPLOT_API=IMGUI_API" "IMPLOT3D_API=IMGUI_API")
 target_link_libraries(imgui INTERFACE libimgui)
